@@ -29,7 +29,8 @@ public class TouristSpotService : ITouristSpotService
         var touristSpot = new TouristSpot(request.Name, request.Description, address);
 
         await _repository.AddAsync(touristSpot);
-        
+        await _repository.UnitOfWork.Commit();
+            
         return touristSpot.Id;
     }
 
@@ -46,7 +47,8 @@ public class TouristSpotService : ITouristSpotService
         var address = new Address(request.Location, request.City, state);
         touristSpot.Update(request.Name, request.Description, address);
 
-        await _repository.UpdateAsync(touristSpot);
+        _repository.Update(touristSpot);
+        await _repository.UnitOfWork.Commit();
     }
 
     public async Task<TouristSpotResponse?> GetByIdAsync(Guid id)
