@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ViajaBrasil.API/ViajaBrasil.API.csproj" />
+    <Project Path="src/ViajaBrasil.Application/ViajaBrasil.Application.csproj" />
+    <Project Path="src/ViajaBrasil.Domain/ViajaBrasil.Domain.csproj" />
+    <Project Path="src/ViajaBrasil.Infrastructure/ViajaBrasil.Infrastructure.csproj" />
+    <Project Path="src/ViajaBrasil.Tests/ViajaBrasil.Tests.csproj" />
+  </Folder>
+</Solution>
