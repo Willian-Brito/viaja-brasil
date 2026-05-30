@@ -16,31 +16,6 @@ public static class SwaggerConfiguration
                 Contact = new OpenApiContact { Name = "Willian Brito", Email = "contato@evertec.com" },
                 License = new OpenApiLicense { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
             });
-
-            // config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-            // {
-            //     Name = "Authorization",
-            //     Type = SecuritySchemeType.ApiKey,
-            //     Scheme = "Bearer",
-            //     BearerFormat = "JWT",
-            //     In = ParameterLocation.Header,
-            //     Description = "Add you JWT token: Bearer {token}",
-            // });
-            //
-            // config.AddSecurityRequirement(new OpenApiSecurityRequirement
-            // {
-            //     {
-            //         new OpenApiSecurityScheme
-            //         {
-            //             Reference = new OpenApiReference
-            //             {
-            //                 Type = ReferenceType.SecurityScheme,
-            //                 Id = "Bearer"
-            //             }
-            //         },
-            //         new string[] {}
-            //     }
-            // });
         });
 
         return services;

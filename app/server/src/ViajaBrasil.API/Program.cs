@@ -18,7 +18,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
     app.UseSwaggerConfiguration();
 
-// app.UseHttpsRedirection();
 app.ApplyMigrations();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
