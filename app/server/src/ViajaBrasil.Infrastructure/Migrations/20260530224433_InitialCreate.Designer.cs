@@ -11,7 +11,7 @@ using ViajaBrasil.Infrastructure.Context;
 namespace ViajaBrasil.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260530143710_InitialCreate")]
+    [Migration("20260530224433_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33459,6 +33459,71 @@ namespace ViajaBrasil.Infrastructure.Migrations
                     b.HasIndex("CityIbgeCode");
 
                     b.ToTable("TouristSpots", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c725cea3-9844-4f43-8d4f-aea87039a3ab"),
+                            CityIbgeCode = "3304557",
+                            CreatedAt = new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(2918),
+                            Description = "Estátua localizada no topo do Morro do Corcovado.",
+                            Location = "Parque Nacional da Tijuca",
+                            Name = "Cristo Redentor"
+                        },
+                        new
+                        {
+                            Id = new Guid("c27c3a17-a9ac-418c-a901-9692d5d537f8"),
+                            CityIbgeCode = "3304557",
+                            CreatedAt = new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(2954),
+                            Description = "Complexo de morros com vista panorâmica da cidade.",
+                            Location = "Urca",
+                            Name = "Pão de Açúcar"
+                        },
+                        new
+                        {
+                            Id = new Guid("cd83cdbe-bf8f-43ae-b356-f1d6d12f6b95"),
+                            CityIbgeCode = "4108304",
+                            CreatedAt = new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(2989),
+                            Description = "Conjunto de quedas d'água na fronteira com a Argentina.",
+                            Location = "Parque Nacional do Iguaçu",
+                            Name = "Cataratas do Iguaçu"
+                        },
+                        new
+                        {
+                            Id = new Guid("b1e6bb7b-8888-41bf-b020-a4b9bea7f560"),
+                            CityIbgeCode = "2927408",
+                            CreatedAt = new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4419),
+                            Description = "Centro histórico com casarões coloniais coloridos.",
+                            Location = "Centro Histórico",
+                            Name = "Pelourinho"
+                        },
+                        new
+                        {
+                            Id = new Guid("c4834ead-672b-470c-83bf-b71467c3f549"),
+                            CityIbgeCode = "2927408",
+                            CreatedAt = new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4640),
+                            Description = "Cartão postal que liga a Cidade Alta à Cidade Baixa.",
+                            Location = "Praça Tomé de Souza",
+                            Name = "Elevador Lacerda"
+                        },
+                        new
+                        {
+                            Id = new Guid("0f2b248b-b8cb-44bf-a44c-afaa45714eca"),
+                            CityIbgeCode = "1302603",
+                            CreatedAt = new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4674),
+                            Description = "Importante patrimônio histórico da região amazônica.",
+                            Location = "Centro de Manaus",
+                            Name = "Teatro Amazonas"
+                        },
+                        new
+                        {
+                            Id = new Guid("10854e70-b2c0-4e84-b7d6-1f3473f6e20c"),
+                            CityIbgeCode = "3550308",
+                            CreatedAt = new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4711),
+                            Description = "Principal centro financeiro e cultural da cidade.",
+                            Location = "Bela Vista",
+                            Name = "Avenida Paulista"
+                        });
                 });
 
             modelBuilder.Entity("ViajaBrasil.Domain.Entities.TouristSpot", b =>

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ViajaBrasil.Domain.Entities;
+using ViajaBrasil.Infrastructure.Seeds;
 
 namespace ViajaBrasil.Infrastructure.Configurations;
 
@@ -33,5 +34,7 @@ public class TouristSpotConfiguration : IEntityTypeConfiguration<TouristSpot>
             .HasForeignKey(x => x.CityIbgeCode)
             .HasPrincipalKey(x => x.IbgeCode)
             .OnDelete(DeleteBehavior.Restrict);
+        
+        builder.HasData(TouristSpotsSeed.Data);
     }
 }

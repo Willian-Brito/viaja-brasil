@@ -6,7 +6,7 @@ using ViajaBrasil.Infrastructure.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApiConfig();
+builder.Services.AddApiConfig(builder.Configuration);
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructureSwagger();
@@ -18,6 +18,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
     app.UseSwaggerConfiguration();
 
+app.UseCors("ReactPolicy");
 app.ApplyMigrations();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();

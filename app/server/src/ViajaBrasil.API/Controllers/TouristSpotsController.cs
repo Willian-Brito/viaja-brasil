@@ -48,7 +48,7 @@ public class TouristSpotsController : ControllerBase
     public async Task<IActionResult> GetAll(
         [FromQuery] string? search,
         [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 10
+        [FromQuery] int pageSize = 5
     )
     {
         var result = await _service.GetAllAsync(search, page, pageSize);

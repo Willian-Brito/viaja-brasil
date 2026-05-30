@@ -5,13 +5,27 @@ namespace ViajaBrasil.API.Configuration;
 
 public static class ApiConfiguration
 {
-    public static IServiceCollection AddApiConfig(this IServiceCollection services)
+    public static IServiceCollection AddApiConfig(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers();
         services.AddRouting(options =>
         {
             options.LowercaseUrls = true;
         });
+
+        var allowedOrigins = configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+
+        services.AddCors(options =>
+        {
+            options.AddPolicy("ReactPolicy", policy =>
+            {
+                policy
+                    .WithOrigins(allowedOrigins)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+        });
+
 
         return services;
     }

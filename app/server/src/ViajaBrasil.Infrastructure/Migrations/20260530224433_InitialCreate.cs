@@ -5619,6 +5619,20 @@ namespace ViajaBrasil.Infrastructure.Migrations
                     { "5300108", "BRASILIA", "DF" }
                 });
 
+            migrationBuilder.InsertData(
+                table: "TouristSpots",
+                columns: new[] { "Id", "CityIbgeCode", "CreatedAt", "Description", "Location", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("0f2b248b-b8cb-44bf-a44c-afaa45714eca"), "1302603", new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4674), "Importante patrimônio histórico da região amazônica.", "Centro de Manaus", "Teatro Amazonas" },
+                    { new Guid("10854e70-b2c0-4e84-b7d6-1f3473f6e20c"), "3550308", new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4711), "Principal centro financeiro e cultural da cidade.", "Bela Vista", "Avenida Paulista" },
+                    { new Guid("b1e6bb7b-8888-41bf-b020-a4b9bea7f560"), "2927408", new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4419), "Centro histórico com casarões coloniais coloridos.", "Centro Histórico", "Pelourinho" },
+                    { new Guid("c27c3a17-a9ac-418c-a901-9692d5d537f8"), "3304557", new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(2954), "Complexo de morros com vista panorâmica da cidade.", "Urca", "Pão de Açúcar" },
+                    { new Guid("c4834ead-672b-470c-83bf-b71467c3f549"), "2927408", new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(4640), "Cartão postal que liga a Cidade Alta à Cidade Baixa.", "Praça Tomé de Souza", "Elevador Lacerda" },
+                    { new Guid("c725cea3-9844-4f43-8d4f-aea87039a3ab"), "3304557", new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(2918), "Estátua localizada no topo do Morro do Corcovado.", "Parque Nacional da Tijuca", "Cristo Redentor" },
+                    { new Guid("cd83cdbe-bf8f-43ae-b356-f1d6d12f6b95"), "4108304", new DateTime(2026, 5, 30, 22, 44, 26, 19, DateTimeKind.Utc).AddTicks(2989), "Conjunto de quedas d'água na fronteira com a Argentina.", "Parque Nacional do Iguaçu", "Cataratas do Iguaçu" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_TouristSpots_CityIbgeCode",
                 table: "TouristSpots",
