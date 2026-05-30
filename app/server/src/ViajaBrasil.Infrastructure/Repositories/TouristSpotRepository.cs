@@ -34,6 +34,7 @@ public class TouristSpotRepository : ITouristSpotRepository
     public async Task<TouristSpot?> GetByIdAsync(Guid id)
     {
         return await _context.TouristSpots
+            .Include(x => x.City)
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id);
     }
@@ -41,6 +42,7 @@ public class TouristSpotRepository : ITouristSpotRepository
     public async Task<IEnumerable<TouristSpot>> GetAllAsync(string? search, int page, int pageSize)
     {
         var query = _context.TouristSpots
+            .Include(x => x.City)
             .AsNoTracking()
             .AsQueryable();
 
@@ -51,7 +53,7 @@ public class TouristSpotRepository : ITouristSpotRepository
             query = query.Where(x =>
                 x.Name.ToLower().Contains(search)
                 || x.Description.ToLower().Contains(search)
-                || x.Address.Location.ToLower().Contains(search));
+                || x.Location.ToLower().Contains(search));
         }
 
         return await query

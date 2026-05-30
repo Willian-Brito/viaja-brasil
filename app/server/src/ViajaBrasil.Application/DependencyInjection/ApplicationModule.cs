@@ -11,6 +11,7 @@ public static class ApplicationModule
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<ITouristSpotService, TouristSpotService>();
+        services.AddScoped<ICityService, CityService>();
         services.AddValidatorsFromAssemblyContaining<TouristSpotValidator>();
 
         return services;

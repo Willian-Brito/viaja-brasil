@@ -17,27 +17,21 @@ public class TouristSpotConfiguration : IEntityTypeConfiguration<TouristSpot>
         builder.Property(x => x.Description)
             .IsRequired()
             .HasMaxLength(100);
+        
+        builder.Property(x => x.Location)
+            .IsRequired()
+            .HasMaxLength(200);
 
+        builder.Property(x => x.CityIbgeCode)
+            .IsRequired();
+        
         builder.Property(x => x.CreatedAt)
             .IsRequired();
 
-        builder.OwnsOne(x => x.Address, address =>
-        {
-            address.Property(x => x.Location)
-                .HasColumnName("Location")
-                .HasMaxLength(200)
-                .IsRequired();
-
-            address.Property(x => x.City)
-                .HasColumnName("City")
-                .HasMaxLength(100)
-                .IsRequired();
-
-            address.Property(x => x.State)
-                .HasColumnName("State")
-                .HasConversion<string>()
-                .HasMaxLength(2)
-                .IsRequired();
-        });
+        builder.HasOne(x => x.City)
+            .WithMany(x => x.TouristSpots)
+            .HasForeignKey(x => x.CityIbgeCode)
+            .HasPrincipalKey(x => x.IbgeCode)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ViajaBrasil.Application.Interfaces;
 using ViajaBrasil.Domain.Interfaces;
 using ViajaBrasil.Infrastructure.Context;
 using ViajaBrasil.Infrastructure.Repositories;
@@ -20,6 +21,7 @@ public static class InfrastructureModule
         });
 
         services.AddScoped<ITouristSpotRepository, TouristSpotRepository>();
+        services.AddScoped<ICityRepository, CityRepository>();
         return services;
     }
 }

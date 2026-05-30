@@ -12,9 +12,9 @@ public static class TouristSpotMapping
             Id = touristSpot.Id,
             Name = touristSpot.Name,
             Description = touristSpot.Description,
-            Location = touristSpot.Address.Location,
-            City = touristSpot.Address.City,
-            State = touristSpot.Address.State.ToString(),
+            Location = touristSpot.Location,
+            City = touristSpot.City.Name,
+            State = touristSpot.City.State.ToString(),
             CreatedAt = touristSpot.CreatedAt
         };
     }

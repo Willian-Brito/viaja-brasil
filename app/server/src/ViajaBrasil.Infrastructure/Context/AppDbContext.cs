@@ -7,6 +7,7 @@ namespace ViajaBrasil.Infrastructure.Context;
 public class AppDbContext : DbContext, IUnitOfWork
 {
     public DbSet<TouristSpot> TouristSpots { get; set; }
+    public DbSet<City> Cities { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
     

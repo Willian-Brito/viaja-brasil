@@ -19,12 +19,10 @@ public class TouristSpotValidator : AbstractValidator<TouristSpotRequest>
             .NotEmpty()
             .MaximumLength(200);
 
-        RuleFor(x => x.City)
+        RuleFor(x => x.CityIbgeCode)
             .NotEmpty()
-            .MaximumLength(100);
-
-        RuleFor(x => x.State)
-            .NotEmpty()
-            .Length(2);
+            .Length(7)
+            .Matches(@"^\d+$")
+            .WithMessage("Invalid IBGE code.");
     }
 }

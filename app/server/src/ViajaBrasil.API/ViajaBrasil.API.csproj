@@ -10,6 +10,16 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ViajaBrasil.Application\ViajaBrasil.Application.csproj" />
+    <ProjectReference Include="..\ViajaBrasil.Domain\ViajaBrasil.Domain.csproj" />
+    <ProjectReference Include="..\ViajaBrasil.Infrastructure\ViajaBrasil.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
