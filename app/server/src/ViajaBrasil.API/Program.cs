@@ -24,3 +24,8 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();
+
+namespace ViajaBrasil.API
+{
+    public partial class Program;
+}
