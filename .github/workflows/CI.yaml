@@ -259,3 +259,136 @@ jobs:
         with:
           name: kics-report
           path: reports/
+
+  # ======================================================
+  # 8. Build das Imagens Docker (client + server)
+  # ======================================================
+  docker-build:
+    needs: [versioning, build-and-test-server, build-and-test-client, sast, sca, iac, secrets-scan]
+    runs-on: ubuntu-latest
+    name: Build Docker Images
+
+    env:
+      version: ${{ needs.versioning.outputs.version }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Listing (Debug)
+        run: ls -la
+
+      # Backend (server)
+      - name: Build Server Docker Image
+        run: |
+          docker build -t ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-api:${{ env.version }} \
+            -f app/server/src/ViajaBrasil.API/Dockerfile .
+
+      # Frontend (client)
+      - name: Build Client Docker Image
+        run: |
+          docker build -t ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-web:${{ env.version }} \
+            -f app/client/Dockerfile .
+
+      - name: Save Docker images as artifact
+        run: |
+          docker save ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-api:${{ env.version }} -o server.tar
+          docker save ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-web:${{ env.version }} -o client.tar
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docker-images
+          path: |
+            server.tar
+            client.tar
+
+  # ======================================================
+  # 9. Analise de Segurança da Imagem Docker
+  # ======================================================
+  container-scan:
+    needs: [versioning, docker-build]
+    runs-on: ubuntu-latest
+    name: Container Scan - Trivy Scan Docker Images
+
+    env:
+      version: ${{ needs.versioning.outputs.version }}
+
+    steps:
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: docker-images
+          path: .
+
+      - name: Load Docker images
+        run: |
+          docker load -i server.tar
+          docker load -i client.tar
+
+      - name: Run Trivy Scan - Server
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          image-ref: '${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-api:${{ env.version }}'
+          severity: 'MEDIUM,HIGH,CRITICAL'          
+          format: 'sarif'          
+          output: 'trivy-server.sarif'
+          exit-code: '0'
+  
+      - name: Run Trivy Scan - Client
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'image'
+          image-ref: '${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-web:${{ env.version }}'
+          severity: 'MEDIUM,HIGH,CRITICAL'          
+          format: 'sarif'          
+          output: 'trivy-client.sarif'
+          exit-code: '0'
+      
+      - name: Upload Trivy Reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-reports
+          path: |
+            trivy-server.sarif
+            trivy-client.sarif
+
+  # ======================================================
+  # 10. Push da Imagem para o Docker Hub
+  # ======================================================
+  docker-push:
+    needs: [versioning, container-scan]
+    runs-on: ubuntu-latest
+    name: Push Docker Images
+
+    env:
+      version: ${{ needs.versioning.outputs.version }}
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: docker-images
+          path: .
+
+      - name: Load Docker images
+        run: |
+          docker load -i server.tar
+          docker load -i client.tar
+
+      - name: Docker Login
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Tag Images as Latest
+        run: |
+          docker tag ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-api:${{ env.version }} \
+                      ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-api:latest
+          docker tag ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-web:${{ env.version }} \
+                      ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-web:latest
+        if: github.ref == 'refs/heads/main'
+
+      - name: Push Docker Images
+        run: |
+          docker push --all-tags ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-api
+          docker push --all-tags ${{ vars.DOCKERHUB_REPOSITORY }}/viaja-brasil-web
