@@ -15,7 +15,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Docker"))
     app.UseSwaggerConfiguration();
 
 app.UseCors("ReactPolicy");

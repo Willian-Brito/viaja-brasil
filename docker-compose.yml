@@ -1,0 +1,28 @@
+services:
+  viaja-brasil-api:
+    image: willianbrito00/viaja-brasil-api:${TAG:-latest}
+    container_name: viaja-brasil-api
+    build:
+      context: .
+      dockerfile: app/server/src/ViajaBrasil.API/Dockerfile
+
+    ports:
+      - "5215:8080"
+
+    volumes:
+      - sqlite_data:/app/data
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+
+  viaja-brasil-web:
+    image: willianbrito00/viaja-brasil-web:${TAG:-latest}
+    container_name: viaja-brasil-web
+    build: 
+      context: .
+      dockerfile: ./app/client/Dockerfile
+    ports:
+      - "8081:80"
+
+volumes:
+  sqlite_data:
