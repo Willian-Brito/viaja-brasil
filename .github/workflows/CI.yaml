@@ -1,0 +1,142 @@
+name: Continuous Integration
+
+on:
+  push:
+    paths:
+      - 'global.json'
+      - 'src/**'
+      - '.github/**'
+    branches:
+      - main
+  pull_request:
+    paths:
+      - 'global.json'
+      - 'src/**'
+      - '.github/**'
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  # ======================================================
+  # 1. Versionamento do Projeto
+  # ======================================================
+  versioning:
+    runs-on: ubuntu-latest
+    name: Versioning
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0 
+      
+      - uses:  codacy/git-version@2.8.3
+        id: version
+        with:
+          release-branch: main
+          prefix: v
+
+      - name: Repository Tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "::notice:: ${{ steps.version.outputs.version }}"
+          git config --global user.email "${{ github.actor }}"@users.noreply.github.com
+          git config --global user.name "${{ github.actor }}"
+          git tag -a "${{ steps.version.outputs.version }}" -m "Release ${{ steps.version.outputs.version }}"
+          git push --tags
+        if: github.ref == 'refs/heads/main'
+      
+      - name: Create file version
+        run: |
+          echo ${{ steps.version.outputs.version }} > version.txt
+        if: github.ref == 'refs/heads/main'
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: version
+          path: version.txt
+        if: github.ref == 'refs/heads/main'
+
+  # ======================================================
+  # 2. Build e Testes do Backend (.NET)
+  # ======================================================
+  build-and-test-server:
+    runs-on: ubuntu-latest
+    name: Build and Test Server (.NET)
+    needs: versioning
+    defaults:
+      run:
+        working-directory: app/server
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+
+      - name: Restore
+        run: |
+            dotnet restore ./ViajaBrasil.slnx
+  
+      - name: Build
+        run: |          
+            dotnet build --no-restore --configuration Release ./ViajaBrasil.slnx
+      
+      - name: Test
+        run: |                          
+            dotnet test ./ViajaBrasil.slnx --no-restore --no-build --configuration Release --logger trx --results-directory "TestResults"
+
+      - uses: actions/upload-artifact@v4
+        with:
+            name: dotnet-test-results
+            path: app/server/TestResults  
+
+  # ======================================================
+  # 3. Build do Front-end (React)
+  # ======================================================
+  build-and-test-client:
+    runs-on: ubuntu-latest
+    name: Build Frontend (React)
+
+    needs: versioning
+
+    defaults:
+      run:
+        working-directory: app/client
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/client/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Set API URL
+        run: echo "VITE_API_URL=http://localhost:5215" >> $GITHUB_ENV
+
+      - name: Build React App
+        run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-dist
+          path: app/client/dist
