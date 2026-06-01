@@ -45,11 +45,11 @@ public class TouristSpotTests
             .WithMessage("Name is required.");
     }
 
-    [Fact(DisplayName = "Deve lançar exceção quando o nome do ponto turístico ultrapassar 150 caracteres")]
-    public void Constructor_Should_Throw_When_Name_Exceeds_150_Characters()
+    [Fact(DisplayName = "Deve lançar exceção quando o nome do ponto turístico ultrapassar 100 caracteres")]
+    public void Constructor_Should_Throw_When_Name_Exceeds_100_Characters()
     {
         var action = () => new Entities.TouristSpot(
-            new string('A', 151),
+            new string('A', 101),
             "Description",
             "Location",
             "3550308"
@@ -57,7 +57,7 @@ public class TouristSpotTests
 
         action.Should()
             .Throw<DomainException>()
-            .WithMessage("Name must contain up to 150 characters.");
+            .WithMessage("Name must contain up to 100 characters.");
     }
 
     [Theory(DisplayName = "Deve lançar exceção quando a descrição não for informada")]
@@ -113,19 +113,19 @@ public class TouristSpotTests
             .WithMessage("Location reference is required.");
     }
 
-    [Fact(DisplayName = "Deve lançar exceção quando a localização ultrapassar 200 caracteres")]
-    public void Constructor_Should_Throw_When_Location_Exceeds_200_Characters()
+    [Fact(DisplayName = "Deve lançar exceção quando a localização ultrapassar 100 caracteres")]
+    public void Constructor_Should_Throw_When_Location_Exceeds_100_Characters()
     {
         var action = () => new Entities.TouristSpot(
             "Name",
             "Description",
-            new string('A', 201),
+            new string('A', 101),
             "3550308"
         );
 
         action.Should()
             .Throw<DomainException>()
-            .WithMessage("Location reference must contain up to 200 characters.");
+            .WithMessage("Location reference must contain up to 100 characters.");
     }
 
     [Theory(DisplayName = "Deve lançar exceção quando o código IBGE da cidade não for informado")]

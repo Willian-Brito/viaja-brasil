@@ -1,7 +1,7 @@
 [![Continuous Integration](https://github.com/Willian-Brito/viaja-brasil/actions/workflows/CI.yaml/badge.svg)](https://github.com/Willian-Brito/viaja-brasil/actions/workflows/CI.yaml)
 
-# 🏦 Evertec - Teste Técnico para Analista de Sistemas Pleno
-Este repositório foi criado para realizar o teste técnico para o cargo de analista de sistemas pleno da empresa Evertec
+# 🏦 Evertec - Teste Técnico para Analista de Sistemas
+Este repositório foi criado para realizar o teste técnico para o cargo de analista de sistemas da empresa Evertec
 
 ## 🇧🇷 Viaja Brasil
 
@@ -198,6 +198,7 @@ cd viaja-brasil
 dotnet run
 
 ## Front-end (Execute na pasta app/client)
+npm install # instalar as dependências
 npm run dev
 ```
 
