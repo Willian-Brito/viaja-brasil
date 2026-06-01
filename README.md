@@ -260,7 +260,7 @@ docker compose down -v
 
 Foi disponibilizado um vídeo demonstrando a solução desenvolvida, incluindo aspectos funcionais e técnicos do projeto.
 
-#### 🔗 Link: [Adicionar link aqui]
+#### 🔗 Link: https://youtu.be/_L1X_9GDses
 
 > 🔒 O vídeo foi publicado no YouTube na modalidade **Não Listado**, permitindo acesso apenas por meio do link compartilhado.
 >
